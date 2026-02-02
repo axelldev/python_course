@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 
 
 sample_articles = [
@@ -58,7 +58,23 @@ def extract_summaries(data: list) -> dict:
     return {
         item["title"]: item["description"]
         for item in data
-        if len(item["description"]) > 20
+        if len(item["description"]) > 10
+    }
+
+
+def get_unique_sources_trad(data: list[dict]) -> set[str]:
+    sources = set[str]()
+    for item in data:
+        if item.get("source") and item.get("source").get("name"):
+            sources.add(item.get("source").get("name"))
+    return sources
+
+
+def get_unique_sources(data: list[dict]) -> set[str]:
+    return {
+        item.get("source").get("name")
+        for item in data
+        if item.get("source") and item.get("source").get("name")
     }
 
 
@@ -67,3 +83,6 @@ print(extract_titles(sample_articles))
 print(extract_titles(sample_articles))
 print("==== Dict comprehension ====")
 print(extract_summaries(sample_articles))
+print("==== Set comprehension ====")
+print(get_unique_sources(sample_articles))
+print(get_unique_sources_trad(sample_articles))
