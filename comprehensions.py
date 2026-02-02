@@ -75,6 +75,33 @@ def get_unique_sources(data: list[dict]) -> set[str]:
     }
 
 
+def categorize_trad(data: list[dict]) -> dict:
+    sources = get_unique_sources(data)
+    results = {}
+
+    for source in sources:
+        if source not in results:
+            results[source] = []
+
+        for item in data:
+            if source == item.get("source").get("name"):
+                results[source].append(item)
+
+    return results
+
+
+def categorize(articles: list[dict]) -> dict:
+    sources = get_unique_sources(articles)
+    return {
+        source: [
+            article
+            for article in articles
+            if source == article.get("source").get("name")
+        ]
+        for source in sources
+    }
+
+
 print("==== List comprehension ====")
 print(extract_titles(sample_articles))
 print(extract_titles(sample_articles))
@@ -83,3 +110,7 @@ print(extract_summaries(sample_articles))
 print("==== Set comprehension ====")
 print(get_unique_sources(sample_articles))
 print(get_unique_sources_trad(sample_articles))
+
+print("==== Categorize ====")
+print(categorize_trad(sample_articles))
+print(categorize(sample_articles))
