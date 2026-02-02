@@ -1,6 +1,3 @@
-from typing import Any, Callable
-
-
 sample_articles = [
     {
         "title": "Python logra nuevo éxito",
